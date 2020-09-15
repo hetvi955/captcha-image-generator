@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" 
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <title>Recaptcha image generator</title>
+</head>
+<body style="background-color: rgb(252, 195, 202);">
+    <h1 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; font-weight: 300;">Captcha Generator</h1>
+    <div class="container">
+        <span class="captcha">
+            <canvas id='canvas' width='200' height='100' style="margin:20px; margin-left:50px; border:2px solid rgb(82, 0, 0)"></canvas>
+        </span>
+        <button style="float:right; margin-right:750px; margin-top:70px; border-radius: 3px; background-color: rgb(11, 0, 71);" type="submit" onclick="generatecap()"><i class="fa fa-refresh" style="font-size: larger; padding: 5px; color :white; font-weight: 200;" aria-hidden="true"></i></button>
+       <br>
+        <label for="input" style="font-size: 25px;">Enter string: </label>
+        <input type="text" id='input'>
+        <br>
+        <button type="submit" class='btn btn-success' onclick='verify()'>verify!</button><br>
+    
+        
+    </div>
+   
+    <script>
+        function generatecap(){
+            //captcha will have 2 numbers and rest alphabets
+             var capitalarr=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+             var smallarr=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+
+            var number= Math.floor(Math.random()*10);
+            var number_= Math.floor(Math.random()*10);
+
+            //for(i=0; i<capitalarr.length; i++)
+            var a= Math.floor(Math.random()*26);
+            var b= Math.floor(Math.random()*26);
+            var c= Math.floor(Math.random()*26);
+            var d= Math.floor(Math.random()*26);
+
+            var a1= capitalarr[a];
+            var a2=smallarr[b];
+            var a3= capitalarr[c];
+            var a4=smallarr[d];
+             
+            var captchaarr=[number_, number, a1, a2,a3,a4];
+            //shuffle array
+            shuffle(captchaarr);
+
+            function shuffle(arr){
+                arr.sort(()=>Math.random()-0.5);
+                return arr;
+            };
+            var char1= captchaarr[0];
+            var char2= captchaarr[1];
+            var char3= captchaarr[2];
+            var char4= captchaarr[3];
+            var char5= captchaarr[4];
+            var char6= captchaarr[5];
+
+            var canvas =document.getElementById('canvas');
+            var ctx= canvas.getContext('2d');
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+                
+                ctx.font= '20px monospace';
+                ctx.fillText(char1, Math.random()*10 +20, Math.random()*30 +20);
+                ctx.font= '30px monospace';
+                ctx.fillText(char2, Math.random()*10 +40, Math.random()*30 +20);
+                ctx.font= '40px monospace';
+                ctx.fillText(char3, Math.random()*10 +70, Math.random()*30 +20);
+                ctx.font= '30px monospace';
+                ctx.fillText(char4, Math.random()*10 +90, Math.random()*30 +20);
+                ctx.font= '15px monospace';
+                ctx.fillText(char5, Math.random()*10 +120, Math.random()*30 +20);
+                ctx.font= '20px monospace';
+                ctx.fillText(char6, Math.random()*10 +130, Math.random()*30 +20);
+            
+            //convert to string to check
+            verifiedcaptcha= captchaarr.join('');
+            console.log(verifiedcaptcha)
+
+        };
+        window.onload= generatecap();
+
+        function verify(){
+            var input= document.getElementById('input').value;
+            if(input===verifiedcaptcha){
+                window.location.href='welcome.html'
+            }else{
+                alert('Incorrect captcha input. Try again.');
+                generatecap();
+            }
+        }
+    </script>
+</body>
+</html>
